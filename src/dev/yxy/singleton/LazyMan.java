@@ -7,7 +7,7 @@ package dev.yxy.singleton;
 public class LazyMan {
     private static boolean flag = true;
 
-    public LazyMan() {
+    private LazyMan() {
         synchronized (LazyMan.class) {
             if (flag) flag = false;
             else throw new RuntimeException("[非法反射]破坏单例模式");

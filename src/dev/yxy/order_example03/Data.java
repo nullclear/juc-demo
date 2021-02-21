@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by atom on 2021/2/16
  */
 public class Data {
-    private int num = 0;
+    private volatile int num = 0;
     private ReentrantLock lock = new ReentrantLock();
     private Condition conditionA = lock.newCondition();
     private Condition conditionB = lock.newCondition();

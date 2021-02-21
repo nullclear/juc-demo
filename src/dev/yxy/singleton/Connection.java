@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class Connection {
     private static final AtomicReference<FutureTask<Connection>> reference = new AtomicReference<>();
 
-    public Connection() {
+    private Connection() {
         System.out.println("构造函数只执行一次");
     }
 

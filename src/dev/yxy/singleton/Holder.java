@@ -10,7 +10,7 @@ public class Holder {
         return InnerClass.HOLDER;
     }
 
-    public static class InnerClass {
+    private static class InnerClass {
         private static final Holder HOLDER = new Holder();
     }
 }

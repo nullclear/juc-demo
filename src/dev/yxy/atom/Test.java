@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicStampedReference;
  */
 public class Test {
 
-    private static AtomicStampedReference<Integer> reference = new AtomicStampedReference<>(1, 1);
+    private static final AtomicStampedReference<Integer> reference = new AtomicStampedReference<>(1, 1);
 
     public static void main(String[] args) {
         new Thread(() -> {
