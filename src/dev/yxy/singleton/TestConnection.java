@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
  * Created by Nuclear on 2021/2/19
  */
 public class TestConnection {
+
     public static void main(String[] args) throws InterruptedException {
         ExecutorService exec = Executors.newFixedThreadPool(60);
         CyclicBarrier barrier = new CyclicBarrier(50);

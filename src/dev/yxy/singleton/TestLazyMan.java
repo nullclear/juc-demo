@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
  * Created by Nuclear on 2021/2/19
  */
 public class TestLazyMan {
+
     public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         LazyMan man = LazyMan.getInstance();
         System.out.println("man = " + man);

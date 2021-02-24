@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicStampedReference;
  * 乐观锁，带版本号可以解决ABA问题
  * Created by Nuclear on 2021/2/19
  */
-public class Test {
+public class TestAtomicStampedReference {
 
     private static final AtomicStampedReference<Integer> reference = new AtomicStampedReference<>(1, 1);
 

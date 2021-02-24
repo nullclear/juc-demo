@@ -1,11 +1,12 @@
-package dev.yxy.buffer_synchronized;
+package dev.yxy.buffer.lock;
+
+import dev.yxy.buffer.Cake;
 
 /**
- * 管程法模拟缓冲区
- * Created by Nuclear on 2020/12/29
+ * Created by Nuclear on 2021/2/24
  */
-public class zest {
-    static CakeBuffer cakeBuffer = new CakeBuffer();
+public class TestLock {
+    private static final CakeBuffer cakeBuffer = new CakeBuffer();
 
     public static void main(String[] args) {
         new Thread(new Producer()).start();
@@ -15,7 +16,7 @@ public class zest {
         new Thread(new Consumer(), "D").start();
     }
 
-    static class Producer implements Runnable {
+    private static class Producer implements Runnable {
         @Override
         public void run() {
             //厨师姗姗来迟
@@ -30,7 +31,7 @@ public class zest {
         }
     }
 
-    static class Consumer implements Runnable {
+    private static class Consumer implements Runnable {
         @Override
         public void run() {
             for (int i = 0; i < 250; i++) {

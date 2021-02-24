@@ -1,4 +1,4 @@
-package dev.yxy.blocking_queue;
+package dev.yxy.blocking;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
  * 数组阻塞队列(有界阻塞队列)
  * Created by atom on 2021/2/18
  */
-public class Test_ArrayBlockingQueue {
+public class TestArrayBlockingQueue {
 
     public static void main(String[] args) throws InterruptedException {
         //实现了Queue接口，这里只需要了解

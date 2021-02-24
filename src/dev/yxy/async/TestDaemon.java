@@ -16,7 +16,7 @@ public class TestDaemon {
         System.out.println("[主线程]完成任务");
     }
 
-    public static class Task implements Runnable {
+    private static class Task implements Runnable {
         @Override
         public void run() {
             while (true) {

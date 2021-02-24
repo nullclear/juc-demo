@@ -1,4 +1,6 @@
-package dev.yxy.buffer_synchronized;
+package dev.yxy.buffer.sync;
+
+import dev.yxy.buffer.Cake;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 

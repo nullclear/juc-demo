@@ -11,8 +11,9 @@ import java.util.concurrent.TimeUnit;
 public class TestCompletableFuture {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        //test01();
-        test02();
+        testVoid();
+        System.out.println("----------");
+        testResult();
     }
 
     /**
@@ -23,10 +24,10 @@ public class TestCompletableFuture {
      * 1. 获取异步线程内抛出的异常，如果不调用这个方法，那么异步线程中的异常则无法被感知。
      * 2. 阻塞主线程，如果异步线程的执行时间远大于主线程的执行时间，可以保证异步线程执行完再结束主线程。
      */
-    private static void test01() throws ExecutionException, InterruptedException {
+    private static void testVoid() throws ExecutionException, InterruptedException {
         // 没有返回值的异步回调，仅用于执行任务
         CompletableFuture<Void> async = CompletableFuture.runAsync(() -> {
-            System.out.println("test01() [子线程]开始执行任务");
+            System.out.println("testVoid() [子线程]开始执行任务");
             try {
                 TimeUnit.SECONDS.sleep(2);
 
@@ -35,39 +36,39 @@ public class TestCompletableFuture {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
-                System.out.println("test01() [子线程]完成任务");
+                System.out.println("testVoid() [子线程]完成任务");
             }
         });
 
-        System.out.println("test01() 主线程开始执行任务");
+        System.out.println("testVoid() 主线程开始执行任务");
         TimeUnit.SECONDS.sleep(5);
-        System.out.println("test01() 主线程完成任务");
+        System.out.println("testVoid() 主线程完成任务");
 
         //todo 这里没有返回结果，那获取结果有什么用呢？
         async.get();
 
-        System.out.println("test01() completed");
+        System.out.println("testVoid() completed");
     }
 
     /**
      * 这个例子展示了有返回值的异步线程使用方法，不只是返回值，异常也会被保存下来，当你需要时再调用即可
      * 同时还有比较重要的Complete处理与exception处理方法的展示，还有其他方法，需要时再探索
      */
-    private static void test02() throws ExecutionException, InterruptedException {
+    private static void testResult() throws ExecutionException, InterruptedException {
         // 有返回值的异步回调
         CompletableFuture<Integer> async = CompletableFuture.supplyAsync(() -> {
-            System.out.println("test02() [子线程]开始执行任务");
+            System.out.println("testResult() [子线程]开始执行任务");
             try {
                 int i = 1 / 0;
                 return 1024;
             } finally {
-                System.out.println("test02() [子线程]完成任务");
+                System.out.println("testResult() [子线程]完成任务");
             }
         });
 
-        System.out.println("test02() 主线程开始执行任务");
+        System.out.println("testResult() 主线程开始执行任务");
         TimeUnit.SECONDS.sleep(5);
-        System.out.println("test02() 主线程完成任务");
+        System.out.println("testResult() 主线程完成任务");
 
         Integer result = async
                 .whenComplete((integer, throwable) -> {
@@ -80,6 +81,6 @@ public class TestCompletableFuture {
                 .exceptionally(throwable -> 404)// 如果发生异常使用此结果
                 .get();
 
-        System.out.println("test02() result = " + result);
+        System.out.println("testResult() result = " + result);
     }
 }

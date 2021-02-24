@@ -1,4 +1,4 @@
-package dev.yxy.buffer_synchronized;
+package dev.yxy.buffer;
 
 /**
  * Created by Nuclear on 2020/12/29

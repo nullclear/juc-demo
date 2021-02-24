@@ -1,47 +1,51 @@
-package dev.yxy.order_example01;
+package dev.yxy.order;
 
 import java.util.concurrent.Semaphore;
 
 /**
- * Created by atom on 2021/2/16
+ * 信号量控制顺序
+ * Created by atom on 2021/2/24
  */
-public class Data {
+public class DataSemaphore implements IData {
     private Semaphore a = new Semaphore(1);
     private Semaphore b = new Semaphore(0);
     private Semaphore c = new Semaphore(0);
 
-    public void printA() {
+    @Override
+    public void printA(Runnable runnable) {
         for (int i = 0; i < 10; i++) {
             try {
                 a.acquire();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.print("a");
+            runnable.run();
             b.release();
         }
     }
 
-    public void printB() {
+    @Override
+    public void printB(Runnable runnable) {
         for (int i = 0; i < 10; i++) {
             try {
                 b.acquire();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.print("b");
+            runnable.run();
             c.release();
         }
     }
 
-    public void printC() {
+    @Override
+    public void printC(Runnable runnable) {
         for (int i = 0; i < 10; i++) {
             try {
                 c.acquire();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("c");
+            runnable.run();
             a.release();
         }
     }

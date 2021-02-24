@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  * 四大拒绝策略
  * Created by Nuclear on 2021/2/19
  */
-public class Test {
+public class TestThreadPool {
 
     /**
      * 首先明确一点，所有的RejectedExecutionHandler都是在主线程中执行的，策略的详细实现看源码
