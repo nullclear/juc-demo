@@ -22,6 +22,9 @@ public class TestGenerateWater {
 
             //OK
             testThreeThead(new WaterSemaphore());
+
+            //OK
+            testThreeThead(new WaterBarrier());
         }
         long diff = System.currentTimeMillis() - start;
         System.out.println("通过测试，耗费时间：" + diff + "ms");
