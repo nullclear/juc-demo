@@ -1,30 +1,27 @@
 package dev.yxy.async;
 
+import org.junit.Test;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * CompletableFuture异步模式
+ * CompletableFuture（异步模式）
+ * <p>
  * Created by Nuclear on 2021/2/19
  */
 public class TestCompletableFuture {
 
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
-        testVoid();
-        System.out.println("----------");
-        testResult();
-    }
-
     /**
-     * CompletableFuture内部有自带的线程池，不需要外部启动，会按照代码顺序自启动异步线程，
-     * 这个例子中的主线程执行时间更长，而异步线程早就执行结束了，可以很好的证明这一点。
-     * ----
-     * {@link CompletableFuture#get() async.get()}方法在这里作用有两个:
+     * 1. CompletableFuture内部有默认的线程池，当然也可以传入线程池。
+     * -------------------------------------------------- 分割线 --------------------------------------------------
+     * {@link CompletableFuture#get()} 有两个作用：
      * 1. 获取异步线程内抛出的异常，如果不调用这个方法，那么异步线程中的异常则无法被感知。
      * 2. 阻塞主线程，如果异步线程的执行时间远大于主线程的执行时间，可以保证异步线程执行完再结束主线程。
      */
-    private static void testVoid() throws ExecutionException, InterruptedException {
+    @Test
+    public void testVoid() throws ExecutionException, InterruptedException {
         // 没有返回值的异步回调，仅用于执行任务
         CompletableFuture<Void> async = CompletableFuture.runAsync(() -> {
             System.out.println("testVoid() [子线程]开始执行任务");
@@ -54,7 +51,8 @@ public class TestCompletableFuture {
      * 这个例子展示了有返回值的异步线程使用方法，不只是返回值，异常也会被保存下来，当你需要时再调用即可
      * 同时还有比较重要的Complete处理与exception处理方法的展示，还有其他方法，需要时再探索
      */
-    private static void testResult() throws ExecutionException, InterruptedException {
+    @Test
+    public void testResult() throws ExecutionException, InterruptedException {
         // 有返回值的异步回调
         CompletableFuture<Integer> async = CompletableFuture.supplyAsync(() -> {
             System.out.println("testResult() [子线程]开始执行任务");
