@@ -1,10 +1,10 @@
 package dev.yxy.async;
 
+import dev.yxy.util.SleepUtils;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 
 /**
  * CompletableFuture（异步模式）
@@ -23,62 +23,61 @@ public class TestCompletableFuture {
     @Test
     public void testVoid() throws ExecutionException, InterruptedException {
         // 没有返回值的异步回调，仅用于执行任务
-        CompletableFuture<Void> async = CompletableFuture.runAsync(() -> {
-            System.out.println("testVoid() [子线程]开始执行任务");
-            try {
-                TimeUnit.SECONDS.sleep(2);
+        CompletableFuture<Void> async = CompletableFuture
+                .runAsync(() -> {
+                    System.out.println("testVoid() [子线程]开始任务");
+                    SleepUtils.second(2);
+                    // NOTE - 2021/10/28 可以用get方法获取这里抛出的异常
+                    // throwException();
+                    System.out.println("testVoid() [子线程]完成任务");
+                });
 
-                //todo 可以用get方法获取这里抛出的异常
-                //int i = 1 / 0;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } finally {
-                System.out.println("testVoid() [子线程]完成任务");
-            }
-        });
-
-        System.out.println("testVoid() 主线程开始执行任务");
-        TimeUnit.SECONDS.sleep(5);
+        System.out.println("testVoid() 主线程开始任务");
+        SleepUtils.second(5);
         System.out.println("testVoid() 主线程完成任务");
 
-        //todo 这里没有返回结果，那获取结果有什么用呢？
+        // NOTE - 2021/10/28 这里没有返回结果，那获取结果有什么用呢？ 见方法注释
         async.get();
 
-        System.out.println("testVoid() completed");
+        System.out.println("testVoid() last");
     }
 
     /**
-     * 这个例子展示了有返回值的异步线程使用方法，不只是返回值，异常也会被保存下来，当你需要时再调用即可
-     * 同时还有比较重要的Complete处理与exception处理方法的展示，还有其他方法，需要时再探索
+     * 提供返回值的异步调度
      */
     @Test
-    public void testResult() throws ExecutionException, InterruptedException {
+    public void testSupply() throws ExecutionException, InterruptedException {
         // 有返回值的异步回调
-        CompletableFuture<Integer> async = CompletableFuture.supplyAsync(() -> {
-            System.out.println("testResult() [子线程]开始执行任务");
-            try {
-                int i = 1 / 0;
-                return 1024;
-            } finally {
-                System.out.println("testResult() [子线程]完成任务");
-            }
-        });
+        CompletableFuture<Integer> async = CompletableFuture
+                .supplyAsync(() -> {
+                    try {
+                        System.out.println("testSupply() [子线程]开始任务");
+                        throwException();
+                        return 1024;
+                    } finally {
+                        System.out.println("testSupply() [子线程]完成任务");
+                    }
+                });
 
-        System.out.println("testResult() 主线程开始执行任务");
-        TimeUnit.SECONDS.sleep(5);
-        System.out.println("testResult() 主线程完成任务");
+        System.out.println("testSupply() 主线程开始任务");
+        SleepUtils.second(5);
+        System.out.println("testSupply() 主线程完成任务");
 
         Integer result = async
-                .whenComplete((integer, throwable) -> {
-                    // integer可以为null
-                    System.out.println("正常返回的信息 = " + integer);
-                    // throwable可以为null，但是空指针异常会被拦截，不会抛出异常信息
-                    //todo 如果supplyAsync()中没有异常，这里有异常，同样会输出404
-                    System.out.println("异常信息 = " + throwable.getMessage());
+                .whenComplete((i, ex) -> {
+                    // i 可能是null
+                    System.out.println("正常返回的信息 = " + i);
+
+                    // 如果supplyAsync()中没有异常，这里有异常（比如ex是null），同样会输出404
+                    System.out.println("异常信息 = " + ex.getMessage());
                 })
-                .exceptionally(throwable -> 404)// 如果发生异常使用此结果
+                .exceptionally(throwable -> 404)// 处理异常，相当于Spring的ExceptionHandler
                 .get();
 
-        System.out.println("testResult() result = " + result);
+        System.out.println("testSupply() result = " + result);
+    }
+
+    private static void throwException() {
+        throw new AssertionError("断言错误");
     }
 }
