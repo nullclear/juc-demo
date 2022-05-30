@@ -9,7 +9,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * lock替代了synchronized作为监视器
- * ReentrantLock不能跨线程使用，所以在不同线程中使用lock没有问题
+ *
+ * ReentrantLock 的加锁和解锁不能在不同的线程里进行，否则会出现 {@link IllegalMonitorStateException}
+ * ReentrantLock 的加锁和解锁出现在同一个线程里，即使有多个线程调用也没问题
  * Created by Nuclear on 2020/12/29
  */
 public class CakeBuffer {
