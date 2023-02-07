@@ -12,9 +12,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * 延时任务单元测试
  * <p>
- * DelayQueue原理及使用: https://zhuanlan.zhihu.com/p/443335543
- * DelayQueue搞定超时订单: https://juejin.cn/post/6844903955160383502
- * DelayQueue延迟队列和Redis缓存实现订单自动取消功能: https://blog.csdn.net/cstp321/article/details/124730874
+ * <a href="https://zhuanlan.zhihu.com/p/443335543">DelayQueue原理及使用</a>
+ * <a href="https://juejin.cn/post/6844903955160383502">DelayQueue搞定超时订单</a>
+ * <a href="https://blog.csdn.net/cstp321/article/details/124730874">DelayQueue延迟队列和Redis缓存实现订单自动取消功能</a>
  *
  * @author nullclear
  * @since 2023-02-02
@@ -22,9 +22,9 @@ import java.util.concurrent.TimeUnit;
 public abstract class DelayTaskTests {
 
     /**
-     * 通过多个随机延迟任务来测试延迟队列的调度
+     * 多个随机延迟任务
      */
-    public static class MultiRandomTask {
+    public static class RandomDelayTaskTestCase {
 
         private final long baseTime = System.currentTimeMillis();
         private final int totalSize = 100;
@@ -94,9 +94,9 @@ public abstract class DelayTaskTests {
     }
 
     /**
-     * 虚假的延迟任务执行器
+     * Java原生线程池
      */
-    public static class FakeDelayExecutor {
+    public static class OriginThreadPoolTestCase {
 
         private final long baseTime = System.currentTimeMillis();
 
@@ -137,9 +137,9 @@ public abstract class DelayTaskTests {
     }
 
     /**
-     * 根据判断条件自动调整的延迟任务
+     * 自循环延迟任务
      */
-    public static class SelfCycleDelayTask {
+    public static class SelfCycleDelayTaskTestCase {
 
         private final long baseTime = System.currentTimeMillis();
 
