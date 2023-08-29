@@ -3,6 +3,7 @@ package dev.yxy.lock;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 类似于减法计数器
@@ -27,7 +28,11 @@ public class CountDownLatchDemo {
             });
         }
         exec.shutdown();
-        latch.await();
-        System.out.println("所有任务执行完毕");
+        /*
+         * 如果超时前，计数为0，则返回true.
+         * 如果超时前，计数不为0，则返回false.
+         */
+        boolean await = latch.await(10, TimeUnit.SECONDS);
+        System.out.printf("[%s]所有任务执行完毕%n", await);
     }
 }
